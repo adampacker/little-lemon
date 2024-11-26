@@ -1,93 +1,108 @@
 import React from "react";
 import { Formik } from "formik";
+import { submitAPI } from "../../api";
 
-export default function BookingForm() {
+export default function BookingForm({ dates =[], times = [], dispatch }) {
   return (
-    <Formik
-      initialValues={{ date: "", time: "", guests: "", occasion: "" }}
-      validate={(values) => {
-        const errors = {};
-        if (!values.date) {
-          errors.date = "Required";
-        }
-        if (!values.time) {
-          errors.time = "Required";
-        }
-        if (!values.guests) {
-          errors.guests = "Required";
-        }
-        if (!values.occasion) {
-          errors.occasion = "Required";
-        }
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
-      }}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        /* and other goodies */
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="date"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.date}
-          />
-          {errors.date && touched.date && errors.date}
+    <>
+      <h2>Reserve a table</h2>
+      <Formik
+        initialValues={{ date: dates[0], time: times[0], guests: "1", occasion: "" }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.date) {
+            errors.date = "Required";
+          }
+          if (!values.time) {
+            errors.time = "Required";
+          }
+          if (!values.guests) {
+            errors.guests = "Required";
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            submitAPI(values);
+            setSubmitting(false);
+          }, 500);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="date">Date</label>
+            <select
+              id="date"
+              name="date"
+              onChange={(e) => {
+                handleChange(e);
+                dispatch({ type: "update_times", date: e.target.value });
+              }}
+              onBlur={handleBlur}
+              value={values.date}
+            >
+              {dates.map((date) => (
+                <option key={date} value={date}>
+                  {date}
+                </option>
+              ))}
+            </select>
+            {errors.date && touched.date && errors.date}
 
-          <select
-            name="time"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.time}
-          >
-            <option>17:00</option>
-            <option>18:00</option>
-            <option>19:00</option>
-            <option>20:00</option>
-            <option>21:00</option>
-            <option>22:00</option>
-          </select>
-          {errors.time && touched.time && errors.time}
+            <label htmlFor="time">Time</label>
+            <select
+              id="time"
+              name="time"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.time}
+            >
+              {times.map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
+            {errors.time && touched.time && errors.time}
 
-          <input
-            type="number"
-            name="guests"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.guests}
-          />
-          {errors.guests && touched.guests && errors.guests}
+            <label htmlFor="guests">Guests</label>
+            <input
+              type="number"
+              name="guests"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.guests}
+              min="1"
+            />
+            {errors.guests && touched.guests && errors.guests}
 
-          <select
-            name="occasion"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.occasion}
-          >
-            <option>Birthday</option>
-            <option>Anniversary</option>
-          </select>
-          {errors.occasion && touched.occasion && errors.occasion}
+            <label htmlFor="occasion">Occasion</label>
+            <select
+              name="occasion"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.occasion}
+            >
+              <option>None</option>
+              <option value="birthday">Birthday</option>
+              <option value="anniversary">Anniversary</option>
+            </select>
+            {errors.occasion && touched.occasion && errors.occasion}
 
-          <button type="submit" disabled={isSubmitting}>
-            Make Your reservation
-          </button>
-        </form>
-      )}
-    </Formik>
+            <button type="submit" disabled={isSubmitting}>
+              Make Your reservation
+            </button>
+          </form>
+        )}
+      </Formik>
+    </>
   );
 }

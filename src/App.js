@@ -1,8 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { Routes, Route, Link } from "react-router";
-import HomePage from "./components/routes/HomePage";
-import BookingPage from "./components/routes/BookingPage";
+import HomePage from "./components/pages/HomePage";
+import BookingPage from "./components/pages/BookingPage";
 
 function App() {
   return (
