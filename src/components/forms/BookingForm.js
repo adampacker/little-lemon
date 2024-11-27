@@ -1,13 +1,21 @@
 import React from "react";
 import { Formik } from "formik";
 import { submitAPI } from "../../api";
+import { useNavigate } from "react-router";
 
-export default function BookingForm({ dates =[], times = [], dispatch }) {
+export default function BookingForm({ dates = [], times = [], dispatch }) {
+  const navigate = useNavigate();
+
   return (
     <>
       <h2>Reserve a table</h2>
       <Formik
-        initialValues={{ date: dates[0], time: times[0], guests: "1", occasion: "" }}
+        initialValues={{
+          date: dates[0],
+          time: times[0],
+          guests: "1",
+          occasion: "",
+        }}
         validate={(values) => {
           const errors = {};
           if (!values.date) {
@@ -23,8 +31,12 @@ export default function BookingForm({ dates =[], times = [], dispatch }) {
         }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            submitAPI(values);
-            setSubmitting(false);
+            const response = submitAPI(values);
+
+            if (response === true) {
+              setSubmitting(false);
+              navigate("/reservation/confirmed");
+            }
           }, 500);
         }}
       >
@@ -34,10 +46,10 @@ export default function BookingForm({ dates =[], times = [], dispatch }) {
           touched,
           handleChange,
           handleBlur,
-          handleSubmit,
+          handleSubmit: submitForm,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={submitForm}>
             <label htmlFor="date">Date</label>
             <select
               id="date"

@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import BookingForm from "../forms/BookingForm";
 import { fetchAPI } from "../../api";
 import moment from "moment";
+import BookingSlot from "../BookingSlot";
 
 const dates = [];
 for (let i = 1; i <= 7; i++) {
@@ -9,9 +10,9 @@ for (let i = 1; i <= 7; i++) {
 }
 
 export default function Reserve() {
-  const [state, dispatch] = useReducer(updateTimes, [], initialiseTimes);
+  const [times, dispatch] = useReducer(updateTimes, [], initialiseTimes);
 
-  function updateTimes(state, action) {
+  function updateTimes(times, action) {
     return fetchAPI(new Date(action.date));
   }
 
@@ -22,7 +23,12 @@ export default function Reserve() {
   return (
     <>
       <h1>Reserve</h1>
-      <BookingForm dates={dates} times={state} dispatch={dispatch} />
+      <ul>
+        {times.map((time) => (
+          <BookingSlot key={time} time={time} />
+        ))}
+      </ul>
+      <BookingForm dates={dates} times={times} dispatch={dispatch} />
     </>
   );
 }
