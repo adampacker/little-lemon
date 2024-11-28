@@ -1,19 +1,20 @@
 import React from "react";
 import { Formik } from "formik";
-import { submitAPI } from "../../api";
-import { useNavigate } from "react-router";
 
-export default function BookingForm({ dates = [], times = [], dispatch }) {
-  const navigate = useNavigate();
-
+export default function BookingForm({
+  dates = [],
+  times = [],
+  dispatch = () => {},
+  onSubmit = () => {},
+}) {
   return (
     <>
       <h2>Reserve a table</h2>
       <Formik
         initialValues={{
-          date: dates[0],
-          time: times[0],
-          guests: "1",
+          date: "",
+          time: "",
+          guests: "",
           occasion: "",
         }}
         validate={(values) => {
@@ -29,14 +30,11 @@ export default function BookingForm({ dates = [], times = [], dispatch }) {
           }
           return errors;
         }}
+        validateOnMount={true}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            const response = submitAPI(values);
-
-            if (response === true) {
-              setSubmitting(false);
-              navigate("/reservation/confirmed");
-            }
+            onSubmit(values);
+            setSubmitting(false);
           }, 500);
         }}
       >
@@ -48,6 +46,7 @@ export default function BookingForm({ dates = [], times = [], dispatch }) {
           handleBlur,
           handleSubmit: submitForm,
           isSubmitting,
+          isValid,
         }) => (
           <form onSubmit={submitForm}>
             <label htmlFor="date">Date</label>
@@ -60,7 +59,12 @@ export default function BookingForm({ dates = [], times = [], dispatch }) {
               }}
               onBlur={handleBlur}
               value={values.date}
+              required={true}
+              data-testid="date"
             >
+              <option disabled={true} value="">
+                Please select
+              </option>
               {dates.map((date) => (
                 <option key={date} value={date}>
                   {date}
@@ -76,7 +80,12 @@ export default function BookingForm({ dates = [], times = [], dispatch }) {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.time}
+              required={true}
+              data-testid="time"
             >
+              <option disabled={true} value="">
+                Please select
+              </option>
               {times.map((time) => (
                 <option key={time} value={time}>
                   {time}
@@ -87,14 +96,17 @@ export default function BookingForm({ dates = [], times = [], dispatch }) {
 
             <label htmlFor="guests">Guests</label>
             <input
+              id="guests"
               type="number"
               name="guests"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.guests}
               min="1"
+              required={true}
+              data-testid="guests"
             />
-            {errors.guests && touched.guests && errors.guests}
+            <span data-testid="guests-error">{errors.guests && touched.guests && errors.guests}</span>
 
             <label htmlFor="occasion">Occasion</label>
             <select
@@ -102,6 +114,7 @@ export default function BookingForm({ dates = [], times = [], dispatch }) {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.occasion}
+              data-testid="occasion"
             >
               <option>None</option>
               <option value="birthday">Birthday</option>
@@ -109,8 +122,13 @@ export default function BookingForm({ dates = [], times = [], dispatch }) {
             </select>
             {errors.occasion && touched.occasion && errors.occasion}
 
-            <button type="submit" disabled={isSubmitting}>
-              Make Your reservation
+            <button
+              id="submit"
+              type="submit"
+              disabled={isSubmitting || !isValid}
+              data-testid="submit"
+            >
+              Make your reservation
             </button>
           </form>
         )}
