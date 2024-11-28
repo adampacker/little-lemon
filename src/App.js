@@ -4,7 +4,6 @@ import { Routes, Route, Link } from "react-router";
 import HomePage from "./components/pages/HomePage";
 import BookingPage from "./components/pages/BookingPage";
 import ConfirmedBookingPage from "./components/pages/ConfirmedBookingPage";
-import LittleLemonRestaurant from "./images/little-lemon-restaurant.png";
 
 function App() {
   return (
@@ -12,7 +11,7 @@ function App() {
       <header>
         <img
           className="logo"
-          src={LittleLemonRestaurant}
+          src={process.env.PUBLIC_URL + '/little-lemon-restaurant.png'}
           alt="Little Lemon Restaurant"
         />
         <nav className="main-navigation">
