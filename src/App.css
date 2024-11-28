@@ -98,8 +98,18 @@ footer {
 
 .slot {
   background-color: #e7e7e7;
+
+}
+
+.slot {
   padding: 10px 15px;
   text-align: center;
+  border: 1px solid grey;
+}
+
+.slot.active {
+  background-color: #a3ffb2;
+  border: 1px solid #84d391;
 }
 
 label {
@@ -118,18 +128,19 @@ input,
 select {
   display: block;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 10px 5px;
 }
 
 .error {
   color: #ef4b4b;
   margin-bottom: 10px;
+  font-size: 14px;
 }
 
 button#submit {
   margin-top: 15px;
   background-color: #e4bf51;
-  padding: 10px 20px;
+  padding: 15px 20px;
   color: black;
   font-weight: 600;
   transition: background-color 0.2s ease-in-out;
@@ -143,4 +154,13 @@ button#submit:hover:not(:disabled) {
 
 button#submit:disabled {
   background-color: #bfbfbf;
+}
+
+.notification {
+  background-color: #a3ffb2;
+  padding: 10px 30px;
+}
+
+.notification > h1 {
+  font-size: 30px;
 }

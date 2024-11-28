@@ -15,7 +15,7 @@ function App() {
           src={LittleLemonRestaurant}
           alt="Little Lemon Restaurant"
         />
-        <nav class="main-navigation">
+        <nav className="main-navigation">
           <ul className="menu">
             <li className="menu-item">
               <Link to="/">Home</Link>

@@ -4,6 +4,8 @@ import { Formik } from "formik";
 export default function BookingForm({
   dates = [],
   times = [],
+  selectedTime = "",
+  setSelectedTime = () => {},
   dispatch = () => {},
   onSubmit = () => {},
 }) {
@@ -12,7 +14,7 @@ export default function BookingForm({
       <h2>Reserve a table</h2>
       <Formik
         initialValues={{
-          date: "",
+          date: dates[0] || "",
           time: "",
           guests: "",
           occasion: "",
@@ -47,14 +49,19 @@ export default function BookingForm({
           handleSubmit: submitForm,
           isSubmitting,
           isValid,
+          setFieldValue,
         }) => (
           <form onSubmit={submitForm}>
-            <label className="required" htmlFor="date">Date</label>
+            <label className="required" htmlFor="date">
+              Date
+            </label>
             <select
               id="date"
               name="date"
               onChange={(e) => {
                 handleChange(e);
+                setFieldValue("time", "");
+                setSelectedTime("");
                 dispatch({ type: "update_times", date: e.target.value });
               }}
               onBlur={handleBlur}
@@ -71,13 +78,20 @@ export default function BookingForm({
                 </option>
               ))}
             </select>
-            <div class="error" data-testid="date-error">{errors.date && touched.date && errors.date}</div>
+            <div className="error" data-testid="date-error">
+              {errors.date && touched.date && errors.date}
+            </div>
 
-            <label className="required" htmlFor="time">Time</label>
+            <label className="required" htmlFor="time">
+              Time
+            </label>
             <select
               id="time"
               name="time"
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                setSelectedTime(e.target.value);
+              }}
               onBlur={handleBlur}
               value={values.time}
               required={true}
@@ -92,9 +106,13 @@ export default function BookingForm({
                 </option>
               ))}
             </select>
-            <div class="error" data-testid="time-error">{errors.time && touched.time && errors.time}</div>
+            <div className="error" data-testid="time-error">
+              {errors.time && touched.time && errors.time}
+            </div>
 
-            <label className="required" htmlFor="guests">Guests</label>
+            <label className="required" htmlFor="guests">
+              Guests
+            </label>
             <input
               id="guests"
               type="number"
@@ -106,7 +124,9 @@ export default function BookingForm({
               required={true}
               data-testid="guests"
             />
-            <div class="error" data-testid="guests-error">{errors.guests && touched.guests && errors.guests}</div>
+            <div className="error" data-testid="guests-error">
+              {errors.guests && touched.guests && errors.guests}
+            </div>
 
             <label htmlFor="occasion">Occasion</label>
             <select
@@ -120,7 +140,9 @@ export default function BookingForm({
               <option value="birthday">Birthday</option>
               <option value="anniversary">Anniversary</option>
             </select>
-            <div class="error" data-testid="occasion-error">{errors.occasion && touched.occasion && errors.occasion}</div>
+            <div className="error" data-testid="occasion-error">
+              {errors.occasion && touched.occasion && errors.occasion}
+            </div>
 
             <button
               id="submit"

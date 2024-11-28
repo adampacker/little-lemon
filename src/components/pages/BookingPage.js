@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import BookingForm from "../forms/BookingForm";
 import { fetchAPI } from "../../api";
 import moment from "moment";
@@ -12,6 +12,7 @@ for (let i = 1; i <= 7; i++) {
 }
 
 export default function BookingPage() {
+  const [selectedTime, setSelectedTime] = useState("");
   const [times, dispatch] = useReducer(updateTimes, [], initialiseTimes);
   const navigate = useNavigate();
 
@@ -38,14 +39,25 @@ export default function BookingPage() {
       <section className="page-header">
         <h1>Reservations</h1>
       </section>
-      <ul className="timeslots" aria-label="Available times" data-testid="times">
+      <ul
+        className="timeslots"
+        aria-label="Available times"
+        data-testid="times"
+      >
         {times.map((time) => (
-          <BookingSlot key={time} time={time} />
+          <BookingSlot
+            key={time}
+            time={time}
+            isActive={time === selectedTime}
+            onClick={() => setSelectedTime(time)}
+          />
         ))}
       </ul>
       <BookingForm
         dates={dates}
         times={times}
+        selectedTime={selectedTime}
+        setSelectedTime={setSelectedTime}
         dispatch={dispatch}
         onSubmit={submitForm}
       />

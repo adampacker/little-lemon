@@ -7,11 +7,11 @@ export default function ConfirmedBookingPage() {
   console.log(searchParams)
 
   return (
-    <>
+    <section class="notification">
       <h1>Reservation confirmation</h1>
       <div>
         <p>Your reservation for <strong>{searchParams.get("time")}</strong> on <strong>{searchParams.get("date")}</strong> has been confirmed!</p>
       </div>
-    </>
+    </section>
   );
 }
