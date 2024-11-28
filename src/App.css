@@ -1,38 +1,146 @@
-.App {
+html,
+body {
+  font-family: sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  padding: 0 30px;
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 0;
+}
+
+.logo {
+  max-width: 160px;
+  border: 2px solid black;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.menu-item {
+  display: inline-block;
+}
+
+.menu-item > a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  padding: 5px 0;
+}
+
+.menu-item > a:hover {
+  border-bottom: 5px solid #e4bf51;
+  color: black;
+  font-weight: 600;
+}
+
+.banner {
+  background: #ffe69a;
+  padding: 75px 0;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.banner-title {
+  font-size: 36px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.banner-call-to-action {
+  text-decoration: none;
+  background-color: #e4bf51;
+  padding: 10px 20px;
+  color: black;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.banner-call-to-action:hover {
+  background-color: #c0a142;
+}
+
+footer {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  padding: 30px 0;
 }
 
-.App-link {
-  color: #61dafb;
+.copyright {
+  font-size: 12px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.page-header {
+  background-color: #ffe69a;
+  padding: 10px 30px;
+}
+
+.page-header > h1 {
+  font-size: 30px;
+}
+
+.timeslots {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.slot {
+  background-color: #e7e7e7;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+label.required::after {
+  content: "*";
+  color: #ef4b4b;
+}
+
+input,
+select {
+  display: block;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.error {
+  color: #ef4b4b;
+  margin-bottom: 10px;
+}
+
+button#submit {
+  margin-top: 15px;
+  background-color: #e4bf51;
+  padding: 10px 20px;
+  color: black;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+  border: none;
+}
+
+button#submit:hover:not(:disabled) {
+  cursor: pointer;
+  background-color: #c0a142;
+}
+
+button#submit:disabled {
+  background-color: #bfbfbf;
 }

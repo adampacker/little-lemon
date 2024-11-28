@@ -27,19 +27,28 @@ export default function BookingPage() {
     const response = submitAPI(values);
 
     if (response === true) {
-      navigate(`/reservation/confirmed?date=${values.date}&time=${values.time}`);
+      navigate(
+        `/reservation/confirmed?date=${values.date}&time=${values.time}`
+      );
     }
   }
 
   return (
     <>
-      <h1>Reservations</h1>
-      <ul aria-label="Available times" data-testid="times">
+      <section className="page-header">
+        <h1>Reservations</h1>
+      </section>
+      <ul className="timeslots" aria-label="Available times" data-testid="times">
         {times.map((time) => (
           <BookingSlot key={time} time={time} />
         ))}
       </ul>
-      <BookingForm dates={dates} times={times} dispatch={dispatch} onSubmit={submitForm} />
+      <BookingForm
+        dates={dates}
+        times={times}
+        dispatch={dispatch}
+        onSubmit={submitForm}
+      />
     </>
   );
 }
